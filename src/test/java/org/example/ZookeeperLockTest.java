@@ -20,20 +20,18 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ZookeeperLockIntegrationTest {
+public class ZookeeperLockTest {
+    private static final String LOCALHOST = "127.0.0.1";
     private ZooKeeperServer zookeeper;
-    private int zkPort;
 
     @BeforeEach
     public void setup() throws IOException, InterruptedException {
         NIOServerCnxnFactory cnxnFactory = new NIOServerCnxnFactory();
-        cnxnFactory.configure(new InetSocketAddress("127.0.0.1", 0), 0);
+        cnxnFactory.configure(new InetSocketAddress(LOCALHOST, 0), 0);
 
         zookeeper = new ZooKeeperServer(new File("snap-dir"), new File("log-dir"), 800);
 
         cnxnFactory.startup(zookeeper);
-
-        zkPort = zookeeper.getClientPort();
     }
 
     @AfterEach
@@ -43,13 +41,13 @@ public class ZookeeperLockIntegrationTest {
 
     @Test
     public void singleProcessCheck() throws Exception {
-        ZooKeeper zk = new ZooKeeper("127.0.0.1:" + zookeeper.getClientPort(), 800, null);
+        ZooKeeper zk = new ZooKeeper(LOCALHOST + ":" + zookeeper.getClientPort(), 800, null);
 
         long[] count = new long[1];
         AtomicLong atomicCount = new AtomicLong();
 
         try (ZookeeperLock zkLock = new ZookeeperLock(zk, "/_test_lock")) {
-            long tEnd = System.currentTimeMillis() + 5_000;
+            long tEnd = System.currentTimeMillis() + 10_000;
             runMultiThreaded(() -> {
                 while (System.currentTimeMillis() < tEnd) {
                     zkLock.lock();
