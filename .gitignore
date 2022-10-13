@@ -1,3 +1,12 @@
+# Idea
+.idea/*
+!.idea/codeStyles/
+
+# Gradle
+.gradle
+gradle.properties
+build/
+
 # Compiled class file
 *.class
 
