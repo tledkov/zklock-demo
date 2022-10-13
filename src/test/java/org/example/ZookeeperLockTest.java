@@ -3,15 +3,20 @@ package org.example;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import org.apache.commons.io.FileUtils;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.server.NIOServerCnxnFactory;
 import org.apache.zookeeper.server.ZooKeeperServer;
@@ -22,6 +27,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ZookeeperLockTest {
+    private static FileSystem FS = FileSystems.getDefault();
     private static final String LOCALHOST = "127.0.0.1";
     private static final String ZK_TEST_DIR = "zk";
     private static ZooKeeperServer zookeeper;
@@ -45,7 +51,7 @@ public class ZookeeperLockTest {
         // Wait for unlock.
         while (true) {
             try {
-                FileUtils.deleteDirectory(new File(ZK_TEST_DIR));
+                deleteDirectory(FS.getPath(ZK_TEST_DIR));
 
                 break;
             } catch (IOException e) {
@@ -129,4 +135,17 @@ public class ZookeeperLockTest {
             throw (Exception) err;
         }
     }
+
+    private static void deleteDirectory(Path binDir) throws IOException {
+        List<File> classFiles = Files.walk(binDir)
+            .sorted(Comparator.reverseOrder())
+            .map(Path::toFile)
+            .collect(Collectors.toList());
+        for (File classFile : classFiles) {
+            if (!classFile.delete()) {
+                throw new IOException("Could not delete: " + classFile);
+            }
+        }
+    }
+
 }
