@@ -53,7 +53,11 @@ public class ZookeeperLock implements AutoCloseable {
 
     public void unlock() {
         try {
-            zk.delete(lockPath.get(), -1);
+            String lockPath0 = lockPath.get();
+
+            lockPath.remove();
+
+            zk.delete(lockPath0, -1);
         } catch (KeeperException | InterruptedException e) {
             throw new IllegalStateException(e);
         }
