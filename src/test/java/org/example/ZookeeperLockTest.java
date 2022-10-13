@@ -40,7 +40,19 @@ public class ZookeeperLockTest {
     public static void cleanup() throws IOException {
         zookeeper.shutdown(true);
 
-        FileUtils.deleteDirectory(new File(ZK_TEST_DIR));
+        long tEnd = System.currentTimeMillis() + 5000;
+
+        // Wait for unlock.
+        while (true) {
+            try {
+                FileUtils.deleteDirectory(new File(ZK_TEST_DIR));
+
+                break;
+            } catch (IOException e) {
+                if (tEnd < System.currentTimeMillis())
+                    throw e;
+            }
+        }
     }
 
     @Test
