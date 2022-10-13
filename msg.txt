@@ -1,0 +1,53 @@
+Linux version 3.10.0-1160.el7.x86_64 (mockbuild@kbuilder.bsys.centos.org) (gcc version 4.8.5 20150623 (Red Hat 4.8.5-44) (GCC) ) #1 SMP Mon Oct 19 16:18:59 UTC 2020
+Docker version 20.10.6, build 370c289
+
+
+
+[2022-10-13 18:20:39,870] WARN Client session timed out, have not heard from server in 1292ms for sessionid 0x101df9d2f680000 (org.apache.zookeeper.ClientCnxn:1190)
+    [2022-10-13 18:20:39,871] INFO Client session timed out, have not heard from server in 1292ms for sessionid 0x101df9d2f680000, closing socket connection and attempting reconnect (org.apache.zookeeper.ClientCnxn:1238)
+    [2022-10-13 18:20:39,871] WARN Exception causing close of session 0x101df9d2f680000: Broken pipe (org.apache.zookeeper.server.NIOServerCnxn:370)
+    [2022-10-13 18:20:39,974] ERROR Thread Thread[Thread-8,5,main] died (org.apache.zookeeper.server.NIOServerCnxnFactory:92)
+    java.lang.RuntimeException: java.lang.IllegalStateException: org.apache.zookeeper.KeeperException$ConnectionLossException: KeeperErrorCode = ConnectionLoss for /_test_lock
+        at org.example.ZookeeperLockTest.lambda$runMultiThreaded$2(ZookeeperLockTest.java:110)
+        at java.lang.Thread.run(Thread.java:748)
+    Caused by: java.lang.IllegalStateException: org.apache.zookeeper.KeeperException$ConnectionLossException: KeeperErrorCode = ConnectionLoss for /_test_lock
+        at org.example.ZookeeperLock.lock(ZookeeperLock.java:50)
+        at org.example.ZookeeperLockTest.lambda$singleProcessCheck$0(ZookeeperLockTest.java:77)
+        at org.example.ZookeeperLockTest.lambda$runMultiThreaded$2(ZookeeperLockTest.java:106)
+        ... 1 more
+    Caused by: org.apache.zookeeper.KeeperException$ConnectionLossException: KeeperErrorCode = ConnectionLoss for /_test_lock
+        at org.apache.zookeeper.KeeperException.create(KeeperException.java:102)
+        at org.apache.zookeeper.KeeperException.create(KeeperException.java:54)
+        at org.apache.zookeeper.ZooKeeper.getChildren(ZooKeeper.java:2589)
+        at org.example.ZookeeperLock.lock(ZookeeperLock.java:31)
+        ... 3 more
+    [2022-10-13 18:20:39,975] ERROR Thread Thread[Thread-4,5,main] died (org.apache.zookeeper.server.NIOServerCnxnFactory:92)
+    java.lang.RuntimeException: java.lang.IllegalStateException: org.apache.zookeeper.KeeperException$ConnectionLossException: KeeperErrorCode = ConnectionLoss for /_test_lock
+        at org.example.ZookeeperLockTest.lambda$runMultiThreaded$2(ZookeeperLockTest.java:110)
+        at java.lang.Thread.run(Thread.java:748)
+    Caused by: java.lang.IllegalStateException: org.apache.zookeeper.KeeperException$ConnectionLossException: KeeperErrorCode = ConnectionLoss for /_test_lock
+        at org.example.ZookeeperLock.lock(ZookeeperLock.java:50)
+        at org.example.ZookeeperLockTest.lambda$singleProcessCheck$0(ZookeeperLockTest.java:77)
+        at org.example.ZookeeperLockTest.lambda$runMultiThreaded$2(ZookeeperLockTest.java:106)
+        ... 1 more
+    Caused by: org.apache.zookeeper.KeeperException$ConnectionLossException: KeeperErrorCode = ConnectionLoss for /_test_lock
+        at org.apache.zookeeper.KeeperException.create(KeeperException.java:102)
+        at org.apache.zookeeper.KeeperException.create(KeeperException.java:54)
+        at org.apache.zookeeper.ZooKeeper.getChildren(ZooKeeper.java:2589)
+        at org.example.ZookeeperLock.lock(ZookeeperLock.java:31)
+        ... 3 more
+    [2022-10-13 18:20:39,976] ERROR Thread Thread[Thread-6,5,main] died (org.apache.zookeeper.server.NIOServerCnxnFactory:92)
+    java.lang.RuntimeException: java.lang.IllegalStateException: org.apache.zookeeper.KeeperException$ConnectionLossException: KeeperErrorCode = ConnectionLoss for /_test_lock
+        at org.example.ZookeeperLockTest.lambda$runMultiThreaded$2(ZookeeperLockTest.java:110)
+        at java.lang.Thread.run(Thread.java:748)
+    Caused by: java.lang.IllegalStateException: org.apache.zookeeper.KeeperException$ConnectionLossException: KeeperErrorCode = ConnectionLoss for /_test_lock
+        at org.example.ZookeeperLock.lock(ZookeeperLock.java:50)
+        at org.example.ZookeeperLockTest.lambda$singleProcessCheck$0(ZookeeperLockTest.java:77)
+        at org.example.ZookeeperLockTest.lambda$runMultiThreaded$2(ZookeeperLockTest.java:106)
+        ... 1 more
+    Caused by: org.apache.zookeeper.KeeperException$ConnectionLossException: KeeperErrorCode = ConnectionLoss for /_test_lock
+        at org.apache.zookeeper.KeeperException.create(KeeperException.java:102)
+        at org.apache.zookeeper.KeeperException.create(KeeperException.java:54)
+        at org.apache.zookeeper.ZooKeeper.getChildren(ZooKeeper.java:2589)
+        at org.example.ZookeeperLock.lock(ZookeeperLock.java:31)
+        ... 3 more

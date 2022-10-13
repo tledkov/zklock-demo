@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation "org.apache.zookeeper:zookeeper:3.5.9"
+    implementation "org.apache.zookeeper:zookeeper:3.8.0"
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
     testImplementation 'ch.qos.reload4j:reload4j:1.2.22'
