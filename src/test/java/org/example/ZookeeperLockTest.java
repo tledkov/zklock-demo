@@ -37,10 +37,10 @@ public class ZookeeperLockTest {
     }
 
     @AfterAll
-    public static void cleanup() throws IOException {
-        zookeeper.shutdown(true);
+    public static void cleanup() throws IOException, InterruptedException {
+        zookeeper.shutdown();
 
-        long tEnd = System.currentTimeMillis() + 5000;
+        long tEnd = System.currentTimeMillis() + 10_000;
 
         // Wait for unlock.
         while (true) {
@@ -51,6 +51,8 @@ public class ZookeeperLockTest {
             } catch (IOException e) {
                 if (tEnd < System.currentTimeMillis())
                     throw e;
+                else
+                    Thread.sleep(200);
             }
         }
     }
