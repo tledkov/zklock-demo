@@ -11,32 +11,36 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.apache.commons.io.FileUtils;
 import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.server.NIOServerCnxnFactory;
 import org.apache.zookeeper.server.ZooKeeperServer;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ZookeeperLockTest {
     private static final String LOCALHOST = "127.0.0.1";
-    private ZooKeeperServer zookeeper;
+    private static final String ZK_TEST_DIR = "zk";
+    private static ZooKeeperServer zookeeper;
 
-    @BeforeEach
-    public void setup() throws IOException, InterruptedException {
+    @BeforeAll
+    public static void setup() throws IOException, InterruptedException {
         NIOServerCnxnFactory cnxnFactory = new NIOServerCnxnFactory();
         cnxnFactory.configure(new InetSocketAddress(LOCALHOST, 0), 0);
 
-        zookeeper = new ZooKeeperServer(new File("snap-dir"), new File("log-dir"), 800);
+        zookeeper = new ZooKeeperServer(new File(ZK_TEST_DIR, "snapshot"), new File(ZK_TEST_DIR,"log"), 800);
 
         cnxnFactory.startup(zookeeper);
     }
 
-    @AfterEach
-    public void tearDown() {
+    @AfterAll
+    public static void cleanup() throws IOException {
         zookeeper.shutdown(true);
+
+        FileUtils.deleteDirectory(new File(ZK_TEST_DIR));
     }
 
     @Test
